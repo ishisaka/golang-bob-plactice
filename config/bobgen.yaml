@@ -1,0 +1,2 @@
+mysql:
+  dsn: "root:root@tcp(localhost:3306)/world"
