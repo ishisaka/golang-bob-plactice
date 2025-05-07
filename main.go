@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/aarondl/opt/omit"
 	"github.com/ishisaka/golang-bob-plactice/models"
 	"github.com/stephenafamo/bob"
 	"github.com/stephenafamo/bob/dialect/mysql"
@@ -58,4 +59,34 @@ func main() {
 	for _, city := range result {
 		fmt.Println(city)
 	}
+
+	// 新しい都市を追加する
+	var population int32 = 10000000
+	city, err = models.Cities.Insert(&models.CitySetter{
+		Name:        omit.From("Tokyo"),
+		CountryCode: omit.From("JPN"),
+		District:    omit.From("Tokyo"),
+		Population:  omit.From(population),
+	}).One(context.Background(), db)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(city)
+
+	// 更新
+	population = population + 1
+	err = city.Update(context.Background(), db, &models.CitySetter{
+		Population: omit.From(population),
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(city)
+
+	// 削除
+	err = city.Delete(context.Background(), db)
+	if err != nil {
+		panic(err)
+	}
+
 }
