@@ -92,6 +92,10 @@ func main() {
 	// JOIN
 	// 現状はDB側でリレーションの設定が無いとモデルを使えず、
 	// 以下のような手動クエリとなってしまう。
+	// SQL:
+	// SELECT city.ID, city.Name, country.Name AS Country FROM world.city
+	// INNER JOIN world.country ON city.CountryCode = country.Code
+	// WHERE city.CountryCode = "JPN";
 	q1 := mysql.Select(
 		sm.Columns("city.ID", "city.Name", "country.Name as Country"),
 		sm.From("city"),
