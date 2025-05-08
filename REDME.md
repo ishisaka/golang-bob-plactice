@@ -1,8 +1,13 @@
 # Bob
 
-[Bob \| Bob](https://bob.stephenafamo.com/)
+サイト: [Bob \| Bob](https://bob.stephenafamo.com/)
 
-設定ファイルを使ってDBからモデルを作成する。
+
+## Memo
+
+### ツールを使ってモデルを作成する。
+
+設定ファイルを使ってDBからモデルを作成する（MySQL）。
 
 ```bash
 go run github.com/stephenafamo/bob/gen/bobgen-mysql@latest -c ./config/bobgen.yaml

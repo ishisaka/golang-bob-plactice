@@ -42,7 +42,7 @@ func main() {
 		panic(err)
 	}
 	for i, city := range cities {
-		fmt.Printf("%d: %s\n", i, city)
+		fmt.Printf("%d: %+v\n", i, *city)
 	}
 
 	// 生クエリ、SELECTの例
