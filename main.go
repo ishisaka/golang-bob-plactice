@@ -89,4 +89,28 @@ func main() {
 		panic(err)
 	}
 
+	// JOIN
+	// 現状はDB側でリレーションの設定が無いとモデルを使えず、
+	// 以下のような手動クエリとなってしまう。
+	q1 := mysql.Select(
+		sm.Columns("city.ID", "city.Name", "country.Name as Country"),
+		sm.From("city"),
+		sm.InnerJoin("country").On(mysql.Quote("CountryCode").EQ(mysql.Quote("Code"))),
+		sm.Where(mysql.Quote("CountryCode").EQ(mysql.Arg("JPN"))),
+	)
+	result1, err1 := bob.All(context.Background(), db, q1, scan.StructMapper[City1]())
+	if err1 != nil {
+		panic(err)
+	}
+	fmt.Println(reflect.TypeOf(result1))
+	for _, city := range result1 {
+		fmt.Println(city)
+	}
+}
+
+// City1 はJOINの例用に作成した構造体
+type City1 struct {
+	ID      int32  `db:"ID,pk,autoincr" `
+	Name    string `db:"Name" `
+	Country string `db:"Country" `
 }
